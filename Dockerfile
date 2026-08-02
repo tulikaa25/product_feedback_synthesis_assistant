@@ -10,17 +10,16 @@ RUN npm run build
 FROM node:20 AS backend-runner
 WORKDIR /app
 
-# Install Python and virtual environment
+# Install Python and precompiled math/AI system libraries
+# Also install python-is-python3 so the 'python' command spawns 'python3'
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
-    python3-venv \
+    python3-numpy \
+    python3-sklearn \
+    python3-requests \
+    python-is-python3 \
     && rm -rf /var/lib/apt/lists/*
-
-# Set up Python virtual environment and install AI engine requirements
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-RUN pip install --no-cache-dir numpy scikit-learn requests
 
 # Copy backend files
 COPY backend/package*.json ./backend/
