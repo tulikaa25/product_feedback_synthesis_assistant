@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
 # Copy backend files
 COPY backend/package*.json ./backend/
 WORKDIR /app/backend
-RUN npm install
+RUN npm install --ignore-scripts
 
 COPY backend/ ./
 
