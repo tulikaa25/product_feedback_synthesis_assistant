@@ -25,7 +25,9 @@ const aiService = {
       });
 
       pythonProcess.stderr.on('data', (chunk) => {
-        stderrData += chunk.toString();
+        const text = chunk.toString();
+        stderrData += text;
+        logger.info('AI_SERVICE_STDERR', text.trim());
       });
 
       pythonProcess.stdin.write(JSON.stringify(payload));
