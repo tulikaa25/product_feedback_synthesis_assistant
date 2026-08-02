@@ -37,5 +37,5 @@ EXPOSE 5000
 ENV PORT=5000
 ENV NODE_ENV=production
 
-# Compile database schema and generate Prisma client dynamically at startup
-CMD ["sh", "-c", "node prisma-setup.js && npx prisma generate && npm start"]
+# Compile database schema, generate Prisma client, and push tables to the database at startup
+CMD ["sh", "-c", "node prisma-setup.js && npx prisma generate && npx prisma db push && npm start"]
