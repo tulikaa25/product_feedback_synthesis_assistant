@@ -18,6 +18,18 @@ app.use((req, res, next) => {
 // API Routes
 app.use('/api', themesRoutes);
 
+// Serve static files from the React frontend folder (public)
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Catch-all to serve index.html for client-side routing, excluding API routes
+app.get('*', (req, res, next) => {
+  if (req.originalUrl.startsWith('/api')) {
+    return next();
+  }
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
 // Global Error Handler
 app.use((err, req, res, next) => {
   logger.error('HTTP_API', 'Unhandle Exception caught in Express app', { 
