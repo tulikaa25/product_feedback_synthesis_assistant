@@ -40,7 +40,7 @@ let schema = template.replace('TEMPLATE_PROVIDER', provider);
 if (provider === 'postgresql') {
   schema = schema.replace('TEMPLATE_EXTENSIONS', 'extensions = [vector]');
   schema = schema.replace('TEMPLATE_PREVIEW_FEATURES', 'previewFeatures = ["postgresqlExtensions"]');
-  schema = schema.replace(/TEMPLATE_EMBEDDING_TYPE/g, 'Unsupported("vector(768)")');
+  schema = schema.replace(/TEMPLATE_EMBEDDING_TYPE/g, 'String');
 } else {
   // SQLite Compilation
   schema = schema.replace('TEMPLATE_EXTENSIONS', '');

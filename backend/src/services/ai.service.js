@@ -63,10 +63,10 @@ const aiService = {
       // Query Historical Themes using native pgvector cosine distance operator <=>
       // Cosine distance = 1 - cosine similarity. So distance < 0.35 matches similarity > 0.65.
       const historyMatches = await prisma.$queryRaw`
-        SELECT id, title, (embedding <=> ${vectorStr}::vector) as distance
+        SELECT id, title, (embedding::vector <=> ${vectorStr}::vector) as distance
         FROM "HistoricalTheme"
-        WHERE (embedding <=> ${vectorStr}::vector) < 0.35
-        ORDER BY embedding <=> ${vectorStr}::vector;
+        WHERE (embedding::vector <=> ${vectorStr}::vector) < 0.35
+        ORDER BY embedding::vector <=> ${vectorStr}::vector;
       `;
       
       if (historyMatches && historyMatches.length > 0) {
@@ -77,10 +77,10 @@ const aiService = {
 
       // Query Product Release Notes using native pgvector cosine distance operator <=>
       const noteMatches = await prisma.$queryRaw`
-        SELECT id, title, (embedding <=> ${vectorStr}::vector) as distance
+        SELECT id, title, (embedding::vector <=> ${vectorStr}::vector) as distance
         FROM "ProductNote"
-        WHERE (embedding <=> ${vectorStr}::vector) < 0.35
-        ORDER BY embedding <=> ${vectorStr}::vector;
+        WHERE (embedding::vector <=> ${vectorStr}::vector) < 0.35
+        ORDER BY embedding::vector <=> ${vectorStr}::vector;
       `;
 
       if (noteMatches && noteMatches.length > 0) {
