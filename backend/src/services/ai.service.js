@@ -9,7 +9,13 @@ const aiService = {
     return new Promise((resolve, reject) => {
       logger.info('AI_SERVICE', 'Spawning Python HDBSCAN engine...');
       const pythonScript = path.join(__dirname, '../../python_engine/cluster.py');
-      const pythonProcess = spawn('python', [pythonScript]);
+      const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
+      const pythonProcess = spawn(pythonCmd, [pythonScript]);
+
+      pythonProcess.on('error', (err) => {
+        logger.error('AI_SERVICE', `Failed to spawn Python process: ${pythonCmd}`, { error: err.message });
+        reject(new Error(`Failed to spawn Python clustering engine: ${err.message}`));
+      });
 
       let stdoutData = '';
       let stderrData = '';
