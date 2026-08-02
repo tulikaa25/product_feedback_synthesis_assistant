@@ -31,13 +31,11 @@ COPY backend/ ./
 # Copy compiled frontend assets to backend public hosting folder
 COPY --from=frontend-builder /app/frontend/dist ./public
 
-# Setup prisma schema swapper and client
-RUN node prisma-setup.js && npx prisma generate
-
+# Expose port
 EXPOSE 5000
 
 ENV PORT=5000
 ENV NODE_ENV=production
 
-# Start application
-CMD ["npm", "start"]
+# Compile database schema and generate Prisma client dynamically at startup
+CMD ["sh", "-c", "node prisma-setup.js && npx prisma generate && npm start"]
