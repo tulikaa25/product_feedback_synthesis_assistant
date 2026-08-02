@@ -487,6 +487,19 @@ export default function App() {
     }
   };
 
+  const handleCancelPipeline = async () => {
+    try {
+      const res = await fetch('/api/upload/abort', { method: 'POST' });
+      if (res.ok) {
+        setLoading(false);
+        setSuccessToast("AI Pipeline parsing aborted successfully.");
+      }
+    } catch (e) {
+      setLoading(false);
+      setSuccessToast("Pipeline aborted.");
+    }
+  };
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(reportText);
     setSuccessToast("Report copied to clipboard!");
@@ -1019,6 +1032,14 @@ export default function App() {
             <div className="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mb-4" />
             <h3 className="font-semibold text-sm mb-1">AI Pipeline Running</h3>
             <p className="text-xs text-gray-400">{loadingMessage || "Please wait..."}</p>
+            {loadingMessage && loadingMessage.includes("CSV") && (
+              <button
+                onClick={handleCancelPipeline}
+                className="mt-4 px-3 py-1.5 bg-red-950/30 hover:bg-red-900/40 border border-red-900/35 hover:border-red-800/45 text-[10px] text-red-400 hover:text-red-300 font-semibold tracking-wider uppercase rounded-xl transition cursor-pointer"
+              >
+                Cancel Pipeline
+              </button>
+            )}
           </div>
         </div>
       )}

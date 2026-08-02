@@ -487,6 +487,11 @@ const themesService = {
     });
 
     return { message: "Workspace cleared successfully." };
+  },
+
+  // Abort running Python clustering
+  abortIngestion: () => {
+    return aiService.abortActiveEngine();
   }
 };
 

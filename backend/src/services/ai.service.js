@@ -3,16 +3,26 @@ const path = require('path');
 const prisma = require('../db');
 const logger = require('../logger');
 
+let activePythonProcess = null;
+
 const aiService = {
   // Spawn Python HDBSCAN engine and parse output JSON
   runClusteringEngine: (payload) => {
     return new Promise((resolve, reject) => {
+      if (activePythonProcess) {
+        try {
+          activePythonProcess.kill('SIGTERM');
+        } catch (e) {}
+      }
+      
       logger.info('AI_SERVICE', 'Spawning Python HDBSCAN engine...');
       const pythonScript = path.join(__dirname, '../../python_engine/cluster.py');
       const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
       const pythonProcess = spawn(pythonCmd, [pythonScript]);
+      activePythonProcess = pythonProcess;
 
       pythonProcess.on('error', (err) => {
+        activePythonProcess = null;
         logger.error('AI_SERVICE', `Failed to spawn Python process: ${pythonCmd}`, { error: err.message });
         reject(new Error(`Failed to spawn Python clustering engine: ${err.message}`));
       });
@@ -34,6 +44,7 @@ const aiService = {
       pythonProcess.stdin.end();
 
       pythonProcess.on('close', (code) => {
+        activePythonProcess = null;
         if (code !== 0) {
           logger.error('AI_SERVICE', `Python engine exited with code ${code}`, { stderr: stderrData });
           return reject(new Error("Python clustering process failed. Check engine logs."));
@@ -98,6 +109,21 @@ const aiService = {
       matched_historical_theme_ids: JSON.stringify(matched_historical_theme_ids), 
       matched_product_note_ids: JSON.stringify(matched_product_note_ids) 
     };
+  },
+
+  // Terminate any running Python process
+  abortActiveEngine: () => {
+    if (activePythonProcess) {
+      try {
+        activePythonProcess.kill('SIGKILL');
+        activePythonProcess = null;
+        logger.warn('AI_SERVICE', 'Active Python clustering engine was manually aborted.');
+        return true;
+      } catch (e) {
+        logger.error('AI_SERVICE', 'Failed to abort Python process', { error: e.message });
+      }
+    }
+    return false;
   }
 };
 

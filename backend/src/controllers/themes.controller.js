@@ -141,6 +141,17 @@ const themesController = {
       logger.error('CONTROLLER', 'Clear all active themes failed', { error: error.message });
       return res.status(500).json({ message: "Failed to clear themes." });
     }
+  },
+
+  // POST /api/upload/abort
+  abortIngestion: (req, res) => {
+    try {
+      const aborted = themesService.abortIngestion();
+      return res.json({ aborted });
+    } catch (error) {
+      logger.error('CONTROLLER', 'Abort ingestion failed', { error: error.message });
+      return res.status(500).json({ message: "Failed to abort ingestion." });
+    }
   }
 };
 

@@ -8,6 +8,7 @@ const upload = multer({ dest: path.join(__dirname, '../../uploads') });
 
 // Ingestion
 router.post('/upload-csv', upload.single('file'), themesController.uploadCSV);
+router.post('/upload/abort', themesController.abortIngestion);
 
 // Active Themes CRUD & Actions
 router.get('/themes', themesController.getAllThemes);
