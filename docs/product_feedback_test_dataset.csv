@@ -1,0 +1,61 @@
+row_id,feedback_text,source,user_type,product_area,date,optional_rating
+0,Exporting a multi-page transaction report to PDF freezes the tab in Safari.,Support Ticket,Enterprise,Reporting,5/3/2026,2
+5,My Safari tab crashes when I try downloading a 20-page transaction PDF.,Support Ticket,Enterprise,Reporting,7/6/2026,
+36,The top search results are often completely irrelevant.,Community Forum,Pro,Search,6/3/2026,2
+45,Analytics charts take a long time to appear even for small date ranges.,In-App Feedback,Pro,Analytics,7/31/2026,2
+13,The billing search spinner keeps running when filtering a large invoice history.,Support Ticket,Enterprise,Billing,7/29/2026,1
+54,It would be nice to have keyboard click sounds while typing.,Community Forum,Free,Accessibility,6/9/2026,
+33,I cannot reach account settings from the mobile navigation.,Email,Pro,Navigation,7/9/2026,2
+48,Refund processing is taking much longer than the promised timeline.,In-App Feedback,Pro,Refunds,7/3/2026,2
+12,Historical invoice queries are much slower than recent invoice searches.,In-App Feedback,Pro,Billing,7/14/2026,2
+57,Please add support for a second profile picture.,Community Forum,Free,Profile,7/10/2026,3
+46,My refund has been pending for more than a week.,Support Ticket,Pro,Refunds,5/11/2026,1
+50,The password reset email never arrives.,Support Ticket,Free,Authentication,5/30/2026,
+31,On mobile the side menu covers the page and I cannot close it.,Support Ticket,Pro,Navigation,6/10/2026,
+3,On Safari the browser becomes unresponsive while generating a PDF report.,Support Ticket,Pro,Reporting,6/2/2026,2
+52,The reset-password link says it is expired immediately after I receive it.,In-App Feedback,Free,Authentication,7/19/2026,2
+17,I cannot complete payment after bank authentication.,Support Ticket,Enterprise,Checkout,6/23/2026,1
+8,Invoice search takes more than ten seconds for records from last year.,In-App Feedback,Pro,Billing,5/21/2026,
+6,Report export ends in a blank white page on Safari for long PDFs.,In-App Feedback,Pro,Reporting,7/22/2026,2
+40,The analytics dashboard takes forever to load after I sign in.,Support Ticket,Enterprise,Analytics,5/8/2026,2
+4,Large PDF exports work in Chrome but keep freezing Safari.,Community Forum,Free,Export System,6/17/2026,2
+43,The reporting dashboard is noticeably slower than it used to be.,Email,Enterprise,Reporting,6/30/2026,2
+19,Payment keeps failing at the final authorization step.,Support Ticket,Enterprise,Checkout,7/25/2026,1
+34,Mobile menu buttons are hard to tap and some links are inaccessible.,In-App Feedback,Free,Navigation,7/30/2026,2
+58,Could invoices have a celebratory animation when they are paid?,In-App Feedback,Free,Billing,7/18/2026,4
+25,The app logs me out while I am still actively using it.,Support Ticket,Enterprise,Authentication,5/14/2026,2
+56,I would like a compact density mode for tables.,In-App Feedback,Pro,UI,7/1/2026,
+15,UPI payment stays stuck on processing and never completes.,In-App Feedback,Free,Payments,5/24/2026,2
+27,I keep getting sent back to the login screen in the middle of tasks.,Email,Pro,Authentication,6/21/2026,
+9,Filtering historical billing records makes the search page hang.,Email,Enterprise,Billing,6/1/2026,2
+30,The navigation menu is difficult to open on my phone.,In-App Feedback,Free,Navigation,5/17/2026,2
+26,My session expires after a few minutes even when I am working.,In-App Feedback,Pro,Authentication,6/6/2026,1
+16,Checkout says payment declined even though the same card works elsewhere.,Email,Pro,Payments,6/8/2026,2
+24,Important account notifications are consistently arriving late.,Support Ticket,Enterprise,Notifications,7/27/2026,2
+55,Can you add an option to export reports directly to PowerPoint?,Email,Enterprise,Reporting,6/26/2026,
+11,Search performance drops badly when I add multiple invoice filters.,Support Ticket,Enterprise,Billing,7/2/2026,1
+32,The hamburger menu sometimes does nothing on Android.,Community Forum,Free,Navigation,6/25/2026,2
+53,Please let me change the app icon to a custom color.,In-App Feedback,Free,Customization,5/23/2026,4
+41,Checkout pages have become very slow to load.,In-App Feedback,Pro,Checkout,5/27/2026,2
+37,I search for a specific item but get unrelated products.,Support Ticket,Free,Search,6/20/2026,2
+29,I was logged out while filling a form and lost my progress.,Support Ticket,Enterprise,Authentication,7/20/2026,
+44,The checkout screen loads so slowly that I think the app has frozen.,Support Ticket,Free,Checkout,7/16/2026,1
+1,Safari shows a white screen whenever I export a long report as PDF.,Email,Pro,Reporting,5/9/2026,1
+21,I receive payment confirmation emails much later than the actual transaction.,Email,Pro,Notifications,6/4/2026,2
+2,PDF export crashes on my Mac when the transaction report has several pages.,In-App Feedback,Enterprise,Export System,5/18/2026,2
+47,The app says refunded but the money has not reached my account.,Email,Free,Refunds,6/15/2026,1
+39,Relevant products are buried below results that do not match my keywords.,In-App Feedback,Enterprise,Search,7/28/2026,2
+35,Search returns products that have nothing to do with my query.,In-App Feedback,Free,Search,5/19/2026,2
+23,The app sends shipment notifications long after the status has already changed.,Community Forum,Free,Notifications,7/11/2026,2
+49,I have been waiting nine days for a cancelled-order refund.,Support Ticket,Enterprise,Refunds,7/24/2026,1
+10,Finding an invoice from six months ago is painfully slow.,Community Forum,Free,Billing,6/19/2026,2
+22,Push alerts for completed orders are delayed by 30 to 40 minutes.,Support Ticket,Pro,Notifications,6/28/2026,
+18,The transaction fails after OTP verification during checkout.,In-App Feedback,Pro,Payments,7/8/2026,
+59,I want a shortcut that copies my account ID with one click.,Email,Pro,Profile,7/26/2026,4
+20,Order confirmation notifications arrive almost an hour after purchase.,In-App Feedback,Free,Notifications,5/12/2026,2
+7,Searching old invoices becomes extremely slow when I filter by date.,Support Ticket,Enterprise,Billing,5/5/2026,2
+42,Opening my profile takes several seconds every time.,Community Forum,Free,Profile,6/12/2026,2
+14,My card payment fails immediately after I enter the OTP.,Support Ticket,Pro,Payments,5/7/2026,
+28,The dashboard randomly signs me out during long sessions.,Community Forum,Free,Authentication,7/4/2026,2
+51,I requested a password reset three times but received no email.,Email,Pro,Authentication,6/18/2026,1
+38,Search does not understand exact product names and shows random results.,Email,Pro,Search,7/12/2026,2
