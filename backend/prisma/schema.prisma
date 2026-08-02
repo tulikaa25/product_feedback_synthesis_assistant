@@ -1,0 +1,61 @@
+datasource db {
+  provider   = "sqlite"
+  url        = "file:./dev.db"
+  
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  
+}
+
+model RawFeedback {
+  row_id        Int      @id
+  feedback_text String
+  source        String
+  user_type     String
+  product_area  String
+  date          DateTime
+  rating        Int?
+}
+
+model HistoricalTheme {
+  id                String   @id @default(uuid())
+  title             String
+  problem_statement String
+  product_area      String
+  first_seen_date   DateTime
+  embedding         String
+}
+
+model ProductNote {
+  id           String   @id @default(uuid())
+  version      String
+  note_type    String
+  title        String
+  description  String
+  product_area String
+  release_date DateTime
+  embedding    String
+}
+
+model ActiveTheme {
+  id                          String   @id @default(uuid())
+  title                       String
+  problem_statement           String
+  primary_product_area        String
+  status                      String   // PENDING, APPROVED, REJECTED, MERGED
+  supporting_row_ids          String   // JSON stringified array of integers [0, 1, 2]
+  is_pattern                  Boolean
+  matched_historical_theme_ids String?
+  matched_product_note_ids     String?
+  created_at                  DateTime @default(now())
+  embedding                   String
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  action     String   // UPLOAD, RENAME, MERGE, SPLIT, STATUS_CHANGE
+  details    String   // JSON details of action
+  created_at DateTime @default(now())
+}

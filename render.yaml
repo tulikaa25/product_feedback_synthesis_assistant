@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: feedback-synthesis-assistant
+    runtime: docker
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: feedback-db
+          property: connectionString
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: PORT
+        value: 5000
+    dockerContext: .
+    dockerfilePath: Dockerfile
+
+databases:
+  - name: feedback-db
+    plan: free
