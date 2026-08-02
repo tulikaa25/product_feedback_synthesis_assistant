@@ -38,7 +38,7 @@ if (!isPostgres && !dbUrl) {
 let schema = template.replace('TEMPLATE_PROVIDER', provider);
 
 if (provider === 'postgresql') {
-  schema = schema.replace('TEMPLATE_EXTENSIONS', 'extensions = [pgvector]');
+  schema = schema.replace('TEMPLATE_EXTENSIONS', 'extensions = [vector]');
   schema = schema.replace('TEMPLATE_PREVIEW_FEATURES', 'previewFeatures = ["postgresqlExtensions"]');
   schema = schema.replace(/TEMPLATE_EMBEDDING_TYPE/g, 'Unsupported("vector(768)")');
 } else {
