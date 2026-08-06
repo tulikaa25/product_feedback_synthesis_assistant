@@ -2,12 +2,17 @@ const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
 
-// Load environment variables
+// Load environment variables (checks current backend folder .env first, then root .env)
+dotenv.config({ path: path.join(__dirname, '.env') });
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const dbUrl = process.env.DATABASE_URL || '';
 const isPostgres = dbUrl.startsWith('postgres://') || dbUrl.startsWith('postgresql://');
-const provider = isPostgres ? 'postgresql' : 'sqlite';
+
+if (!dbUrl || !isPostgres) {
+  console.error('Error: DATABASE_URL must be a valid PostgreSQL connection string in your .env file.');
+  process.exit(1);
+}
 
 const templatePath = path.join(__dirname, 'prisma/schema.prisma.template');
 const schemaPath = path.join(__dirname, 'prisma/schema.prisma');
@@ -19,35 +24,12 @@ if (!fs.existsSync(templatePath)) {
 
 let template = fs.readFileSync(templatePath, 'utf8');
 
-// If using SQLite and no DATABASE_URL is set, default to local SQLite file url
-let finalUrl = dbUrl;
-if (!isPostgres && !dbUrl) {
-  finalUrl = 'file:./dev.db';
-  // Also write to .env so Prisma CLI can find it
-  const envPath = path.join(__dirname, '../.env');
-  let envContent = '';
-  if (fs.existsSync(envPath)) {
-    envContent = fs.readFileSync(envPath, 'utf8');
-  }
-  if (!envContent.includes('DATABASE_URL')) {
-    fs.writeFileSync(envPath, (envContent + '\nDATABASE_URL="file:./dev.db"\n').trim() + '\n');
-  }
-}
-
-// Perform template compile
-let schema = template.replace('TEMPLATE_PROVIDER', provider);
-
-if (provider === 'postgresql') {
-  schema = schema.replace('TEMPLATE_EXTENSIONS', 'extensions = [vector]');
-  schema = schema.replace('TEMPLATE_PREVIEW_FEATURES', 'previewFeatures = ["postgresqlExtensions"]');
-  schema = schema.replace(/TEMPLATE_EMBEDDING_TYPE/g, 'String');
-} else {
-  // SQLite Compilation
-  schema = schema.replace('TEMPLATE_EXTENSIONS', '');
-  schema = schema.replace('TEMPLATE_PREVIEW_FEATURES', '');
-  schema = schema.replace(/TEMPLATE_EMBEDDING_TYPE/g, 'String');
-  schema = schema.replace('env("DATABASE_URL")', `"${finalUrl}"`);
-}
+// Perform template compile strictly for PostgreSQL
+let schema = template.replace('TEMPLATE_PROVIDER', 'postgresql');
+schema = schema.replace('TEMPLATE_DIRECT_URL', 'directUrl  = env("DIRECT_URL")');
+schema = schema.replace('TEMPLATE_EXTENSIONS', 'extensions = [vector]');
+schema = schema.replace('TEMPLATE_PREVIEW_FEATURES', 'previewFeatures = ["postgresqlExtensions"]');
+schema = schema.replace(/TEMPLATE_EMBEDDING_TYPE/g, 'String');
 
 fs.writeFileSync(schemaPath, schema);
-console.log(`Prisma schema compiled successfully for native: ${provider}`);
+console.log('Prisma schema compiled successfully for native: postgresql');

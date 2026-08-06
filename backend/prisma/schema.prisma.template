@@ -1,6 +1,7 @@
 datasource db {
   provider   = "TEMPLATE_PROVIDER"
   url        = env("DATABASE_URL")
+  TEMPLATE_DIRECT_URL
   TEMPLATE_EXTENSIONS
 }
 

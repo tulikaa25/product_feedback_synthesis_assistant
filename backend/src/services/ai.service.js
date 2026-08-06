@@ -74,7 +74,6 @@ const aiService = {
       const vectorStr = `[${centroid.join(',')}]`;
       
       // Query Historical Themes using native pgvector cosine distance operator <=>
-      // Cosine distance = 1 - cosine similarity. So distance < 0.35 matches similarity > 0.65.
       const historyMatches = await prisma.$queryRaw`
         SELECT id, title, (embedding::vector <=> ${vectorStr}::vector) as distance
         FROM "HistoricalTheme"
@@ -102,7 +101,7 @@ const aiService = {
         });
       }
     } catch (err) {
-      logger.error('AI_SERVICE', 'Native pgvector database query failed', { error: err.message });
+      logger.error('AI_SERVICE', 'Database vector search query failed', { error: err.message });
     }
 
     return { 

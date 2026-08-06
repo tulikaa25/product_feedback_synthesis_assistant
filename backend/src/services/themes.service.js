@@ -114,18 +114,6 @@ const themesService = {
                 feedback_text: r.feedback_text,
                 product_area: r.product_area
               })),
-              historical_themes: historicalThemes.map(h => ({
-                id: h.id,
-                title: h.title,
-                problem_statement: h.problem_statement,
-                embedding: JSON.parse(h.embedding)
-              })),
-              product_notes: productNotes.map(p => ({
-                id: p.id,
-                title: p.title,
-                description: p.description,
-                embedding: JSON.parse(p.embedding)
-              })),
               gemini_api_key: process.env.GEMINI_API_KEY
             };
 
@@ -134,6 +122,8 @@ const themesService = {
             const activeThemesToSave = results.themes || [];
 
             for (const theme of activeThemesToSave) {
+              const matches = await aiService.findBestMatches(theme.embedding);
+
               await prisma.activeTheme.create({
                 data: {
                   title: theme.title,
@@ -142,8 +132,8 @@ const themesService = {
                   status: "PENDING",
                   supporting_row_ids: JSON.stringify(theme.supporting_row_ids),
                   is_pattern: theme.is_pattern,
-                  matched_historical_theme_ids: JSON.stringify(theme.matched_historical_theme_ids || []),
-                  matched_product_note_ids: JSON.stringify(theme.matched_product_note_ids || []),
+                  matched_historical_theme_ids: matches.matched_historical_theme_ids,
+                  matched_product_note_ids: matches.matched_product_note_ids,
                   embedding: JSON.stringify(theme.embedding)
                 }
               });

@@ -62,11 +62,12 @@ Synthesize this feedback into a single, unified customer theme.
 You must output a JSON object with the following fields:
 - title: A concise, descriptive name of the theme (e.g. "Safari PDF Export Crashes").
 - problem_statement: A specific, details-rich problem statement detailing the user pain, behavior, and outcome. IMPORTANT: Keep it extremely concise, maximum 150 characters (around 1-2 short sentences).
+- primary_product_area: The main functional area this belongs to (e.g. "Payments", "Reporting", "Billing", "UI", "Onboarding").
 
 Provide your output strictly in JSON format matching the schema. No markdown formatting.
 """
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={api_key}"
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
@@ -162,7 +163,7 @@ Output strictly as a JSON object:
   ]
 }}
 """
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={api_key}"
         payload = {
             "contents": [{"parts": [{"text": prompt}]}],
             "generationConfig": {
@@ -241,13 +242,6 @@ Output strictly as a JSON object:
                 
     return themes
 
-def cosine_similarity(v1, v2):
-    norm1 = np.linalg.norm(v1)
-    norm2 = np.linalg.norm(v2)
-    if norm1 == 0 or norm2 == 0:
-        return 0.0
-    return float(np.dot(v1, v2) / (norm1 * norm2))
-
 def main():
     sys.stderr.write("Starting Python Clustering Engine...\n")
     
@@ -259,8 +253,6 @@ def main():
         sys.exit(1)
         
     feedback_items = input_data.get("feedback_items", [])
-    historical_themes = input_data.get("historical_themes", [])
-    product_notes = input_data.get("product_notes", [])
     api_key = input_data.get("gemini_api_key", "")
     
     if not feedback_items:
@@ -318,32 +310,14 @@ def main():
         # Calculate cluster centroid embedding
         centroid = np.mean(cluster_embeddings, axis=0)
         
-        # Check similarity with historical themes
-        matched_history_ids = []
-        for hist in historical_themes:
-            hist_emb = hist.get("embedding")
-            if hist_emb and len(hist_emb) == 768:
-                sim = cosine_similarity(centroid, np.array(hist_emb))
-                if sim > 0.65: # Cosine similarity threshold
-                    matched_history_ids.append(hist["id"])
-                        
-        # Check similarity with product notes
-        matched_note_ids = []
-        for note in product_notes:
-            note_emb = note.get("embedding")
-            if note_emb and len(note_emb) == 768:
-                sim = cosine_similarity(centroid, np.array(note_emb))
-                if sim > 0.65:
-                    matched_note_ids.append(note["id"])
-                        
         final_themes.append({
             "title": theme_info["title"],
             "problem_statement": theme_info["problem_statement"],
             "primary_product_area": theme_info["primary_product_area"],
             "supporting_row_ids": [row["row_id"] for row in cluster_rows],
             "is_pattern": True,
-            "matched_historical_theme_ids": matched_history_ids,
-            "matched_product_note_ids": matched_note_ids,
+            "matched_historical_theme_ids": [],
+            "matched_product_note_ids": [],
             "embedding": centroid.tolist()
         })
         
