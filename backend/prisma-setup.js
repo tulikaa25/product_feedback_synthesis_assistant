@@ -26,7 +26,11 @@ let template = fs.readFileSync(templatePath, 'utf8');
 
 // Perform template compile strictly for PostgreSQL
 let schema = template.replace('TEMPLATE_PROVIDER', 'postgresql');
-schema = schema.replace('TEMPLATE_DIRECT_URL', 'directUrl  = env("DIRECT_URL")');
+if (process.env.DIRECT_URL) {
+  schema = schema.replace('TEMPLATE_DIRECT_URL', 'directUrl  = env("DIRECT_URL")');
+} else {
+  schema = schema.replace('TEMPLATE_DIRECT_URL', '');
+}
 schema = schema.replace('TEMPLATE_EXTENSIONS', 'extensions = [vector]');
 schema = schema.replace('TEMPLATE_PREVIEW_FEATURES', 'previewFeatures = ["postgresqlExtensions"]');
 schema = schema.replace(/TEMPLATE_EMBEDDING_TYPE/g, 'String');
